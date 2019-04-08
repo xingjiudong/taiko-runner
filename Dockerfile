@@ -10,10 +10,12 @@ RUN apk update && apk upgrade && \
       harfbuzz@edge \
       ttf-freefont@edge
 
+RUN apk add --no-cache git
+
 ENV TAIKO_SKIP_CHROMIUM_DOWNLOAD true
 ENV TAIKO_BROWSER_PATH /usr/bin/chromium-browser
 
-RUN npm install -g taiko@0.6.0
+RUN npm install -g getgauge/taiko#master
 
 RUN mkdir -p /taiko/screenshot && chown -R node.node /taiko
 
