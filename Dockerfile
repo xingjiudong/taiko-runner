@@ -17,21 +17,17 @@ RUN apk update && apk upgrade && \
 ###
 # Install NotoSansCJK
 ###
-RUN mkdir /noto
-
-ADD https://noto-website.storage.googleapis.com/pkgs/NotoSansCJKjp-hinted.zip /noto
-
-WORKDIR /noto
-
-RUN unzip NotoSansCJKjp-hinted.zip && \
+RUN mkdir /noto && \
+    cd /noto && \
+    wget https://noto-website.storage.googleapis.com/pkgs/NotoSansCJKjp-hinted.zip && \
+    unzip NotoSansCJKjp-hinted.zip && \
     mkdir -p /usr/share/fonts/noto && \
     cp *.otf /usr/share/fonts/noto && \
     chmod 755 /usr/share/fonts/noto && \
     chmod 644 /usr/share/fonts/noto/* && \
-    fc-cache -fv
-
-WORKDIR /
-RUN rm -rf /noto
+    fc-cache -fv && \
+    cd / && \
+    rm -rf /noto
 
 ###
 # Install taiko
