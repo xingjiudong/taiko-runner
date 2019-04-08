@@ -8,6 +8,7 @@ RUN apk update && apk upgrade && \
     echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories && \
     apk add --no-cache \
       git \
+      tini \
       chromium@edge \
       nss@edge \
       freetype@edge \
@@ -30,8 +31,17 @@ RUN mkdir /noto && \
     rm -rf /noto
 
 ###
+# Change to general user
+###
+RUN mkdir -p /taiko/screenshot && chown -R node.node /taiko
+USER node
+
+###
 # Install taiko
 ###
+ENV NPM_CONFIG_PREFIX /home/node/.npm-global
+ENV PATH $PATH:/home/node/.npm-global/bin
+
 ENV TAIKO_SKIP_CHROMIUM_DOWNLOAD true
 ENV TAIKO_BROWSER_PATH /usr/bin/chromium-browser
 
@@ -40,10 +50,8 @@ RUN npm install -g getgauge/taiko#master
 ###
 # Copy scripts
 ###
-RUN mkdir -p /taiko/screenshot && chown -R node.node /taiko
-USER node
 WORKDIR /taiko
 COPY . .
 
-ENTRYPOINT ["taiko", "./index.js", "--"]
+ENTRYPOINT ["tini", "--", "taiko", "./index.js", "--"]
 CMD ["{}"]
