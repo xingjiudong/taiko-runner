@@ -55,6 +55,15 @@ const printEnvironments = function (params, commands) {
   const params = loadParameters();
   const commands = loadCommands(params);
 
+  // https://github.com/getgauge/taiko/blob/v0.6.0/lib/taiko.js#L2292
+  const browserActions = ['openBrowser', 'closeBrowser', 'client', 'switchTo', 'intercept',
+    'emulateNetwork', 'emulateDevice', 'setViewPort', 'openTab', 'closeTab', 'overridePermissions',
+    'clearPermissionOverrides', 'setCookie', 'clearBrowserCookies', 'deleteCookies', 'getCookies', 'setLocation'];
+  // https://github.com/getgauge/taiko/blob/v0.6.0/lib/taiko.js#L2293
+  const pageActions = ['goto', 'reload', 'goBack', 'goForward', 'currentURL', 'title', 'click',
+    'doubleClick', 'rightClick', 'dragAndDrop', 'hover', 'focus', 'write', 'clear', 'attach', 'press',
+    'highlight', 'scrollTo', 'scrollRight', 'scrollLeft', 'scrollUp', 'scrollDown', 'screenshot', 'tap', 'mouseAction'];
+
   printEnvironments(params, commands);
 
   try {
@@ -68,13 +77,18 @@ const printEnvironments = function (params, commands) {
         '--no-zygote'
       ]
     });
-
+    let scripts = `let screenshotCounter = 0\n`;
     for (const [i, command] of commands.entries()) {
-      await Function(`'use strict'; return ${command};`)(); // eslint-disable-line no-new-func
-      if (params.screenshot) {
-        await screenshot({ path: `./screenshot/screenshot-${i.toString().padStart(3, '0')}.png` });
+      if (browserActions.some(action => command.includes(action)) || pageActions.some(action => command.includes(action))) {
+        scripts += `await ${command}\n`
+        if (params.takeScreenshot) {
+          scripts += "await screenshot({ path: `./screenshot/screenshot-${screenshotCounter++}.png` })\n";
+        }
+      } else {
+        scripts += `${command}\n`
       }
     }
+    await Function(`'use strict'; return (async () => { ${scripts} })();`)(); // eslint-disable-line no-new-func
   } catch (e) {
     console.error(e);
   } finally {
