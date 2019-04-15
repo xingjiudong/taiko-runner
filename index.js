@@ -79,7 +79,8 @@ const printEnvironments = function (params, commands) {
     });
     let scripts = `let screenshotCounter = 0\n`;
     for (const [i, command] of commands.entries()) {
-      if (browserActions.some(action => command.includes(action)) || pageActions.some(action => command.includes(action))) {
+      if (browserActions.some(action => command.includes(action)) || pageActions.some(action => command.includes(action))
+          || command.includes('waitFor')) {
         scripts += `await ${command}\n`
         if (params.takeScreenshot) {
           scripts += "await screenshot({ path: `./screenshot/screenshot-${screenshotCounter++}.png` })\n";
