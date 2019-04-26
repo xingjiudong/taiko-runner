@@ -33,7 +33,7 @@ RUN mkdir /noto && \
 ###
 # Change to general user
 ###
-RUN mkdir -p /taiko/screenshot && chown -R node.node /taiko
+RUN mkdir -p /taiko/screenshot && mkdir -p /taiko/downloaded && chown -R node.node /taiko
 USER node
 
 ###

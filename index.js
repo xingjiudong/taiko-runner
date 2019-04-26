@@ -50,7 +50,7 @@ const printEnvironments = function (params, commands) {
 };
 
 (async function () {
-  const { openBrowser, closeBrowser, screenshot } = require('taiko');
+  const { openBrowser, closeBrowser, screenshot, client } = require('taiko');
 
   const params = loadParameters();
   const commands = loadCommands(params);
@@ -77,6 +77,9 @@ const printEnvironments = function (params, commands) {
         '--no-zygote'
       ]
     });
+    if (params.download) {
+      await client().send('Page.setDownloadBehavior', {behavior: 'allow', downloadPath: './downloaded'});
+    }
     let scripts = `let screenshotCounter = 0\n`;
     for (const [i, command] of commands.entries()) {
       if (browserActions.some(action => command.includes(action)) || pageActions.some(action => command.includes(action))
