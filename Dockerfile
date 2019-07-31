@@ -53,5 +53,5 @@ RUN npm install -g getgauge/taiko#master
 WORKDIR /taiko
 COPY . .
 
-ENTRYPOINT ["tini", "--", "taiko", "", "--"]
+ENTRYPOINT [""]
 CMD ["{}"]
