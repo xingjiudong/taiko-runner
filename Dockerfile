@@ -1,5 +1,6 @@
 FROM node:10-alpine
 
+ENV LC_ALL ja_JP.UTF-8
 ###
 # Install Chromium
 ###
