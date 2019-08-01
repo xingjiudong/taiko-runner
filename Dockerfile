@@ -36,6 +36,7 @@ RUN mkdir /noto && \
 # Change to general user
 ###
 RUN mkdir -p /taiko/screenshot && mkdir -p /taiko/downloaded && chown -R node.node /taiko
+RUN echo 'CHROMIUM_FLAGS="--lang=ja_JP,ja"' >> /etc/chromium/chromium.conf
 USER node
 
 ###
@@ -48,8 +49,6 @@ ENV TAIKO_SKIP_CHROMIUM_DOWNLOAD true
 ENV TAIKO_BROWSER_PATH /usr/bin/chromium-browser
 
 RUN npm install -g getgauge/taiko#master
-
-RUN echo 'CHROMIUM_FLAGS="--lang=ja_JP,ja"' >> /etc/chromium/chromium.conf
 ###
 # Copy scripts
 ###
