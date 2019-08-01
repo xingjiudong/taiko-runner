@@ -49,6 +49,7 @@ ENV TAIKO_BROWSER_PATH /usr/bin/chromium-browser
 
 RUN npm install -g getgauge/taiko#master
 
+RUN echo 'CHROMIUM_FLAGS="--lang=ja_JP,ja"' >> /etc/chromium/chromium.conf
 ###
 # Copy scripts
 ###
