@@ -51,7 +51,6 @@ RUN npm install -g getgauge/taiko#master
 # Copy scripts
 ###
 WORKDIR /taiko
-COPY . .
 
 ENTRYPOINT [""]
 CMD ["{}"]
