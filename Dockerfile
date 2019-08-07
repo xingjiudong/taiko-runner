@@ -15,7 +15,8 @@ RUN apk update && apk upgrade && \
       nss@edge \
       freetype@edge \
       harfbuzz@edge \
-      ttf-freefont@edge
+      ttf-freefont@edge \
+      curl
 
 ###
 # Install NotoSansCJK
