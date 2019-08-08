@@ -55,6 +55,8 @@ RUN npm install -g @getgauge/cli
 # Copy scripts
 ###
 WORKDIR /taiko
+RUN gauge install html-report screenshot
+RUN gauge init js
 
 ENTRYPOINT [""]
 CMD ["{}"]
