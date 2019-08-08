@@ -46,11 +46,11 @@ USER node
 ENV NPM_CONFIG_PREFIX /home/node/.npm-global
 ENV PATH $PATH:/home/node/.npm-global/bin
 
-#ENV TAIKO_SKIP_CHROMIUM_DOWNLOAD true
-#ENV TAIKO_BROWSER_PATH /usr/bin/chromium-browser
+ENV TAIKO_SKIP_CHROMIUM_DOWNLOAD true
+ENV TAIKO_BROWSER_PATH /usr/bin/chromium-browser
 
 RUN npm install -g getgauge/taiko#master
-RUN npm install -g @getgauge/cli 
+RUN npm install -g @getgauge/cli
 ###
 # Copy scripts
 ###
